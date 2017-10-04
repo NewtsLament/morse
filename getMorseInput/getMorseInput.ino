@@ -4,7 +4,7 @@
 
 const int led = 13; // led is connected to pin 13
 const int keyPin = 2;  // morse key is connected to pin 7
-Bounce morseKey = Bounce();  // 10 ms debounce
+Bounce morseKey = Bounce();
 
 const unsigned long dot = 100;
 const unsigned long dashThresh = 3*dot; // time threshold in ms to differentiate dots from dashes
@@ -26,7 +26,7 @@ void setup()
   pinMode(led, OUTPUT); // configure the pin connected to the led as an output
   pinMode(keyPin, INPUT_PULLUP); // configure the pin connected to the morse key as a pullup
   morseKey.attach(keyPin);
-  morseKey.interval(10);
+  morseKey.interval(10); // 10 ms debounce
   Serial.begin(57600);
   while (!Serial)
   {
@@ -165,6 +165,12 @@ void evaluateLetter()
       Serial.print("y");
   } else if (inputString=="--.."){
       Serial.print("z");
+  } else if (inputString==".-.-"){
+      Serial.print("æ");
+  } else if (inputString=="---."){
+      Serial.print("ø");
+  } else if (inputString==".--.-"){
+      Serial.print("å");
   } else if (inputString==".----"){
       Serial.print("1");
   } else if (inputString=="..---"){
@@ -185,7 +191,9 @@ void evaluateLetter()
       Serial.print("9");
   } else if (inputString=="-----"){
       Serial.print("0");
-  } else { 
+  } else if (inputString=="-.-"){
+      Serial.println();
+  } else {
       Serial.print("");
   }
 
