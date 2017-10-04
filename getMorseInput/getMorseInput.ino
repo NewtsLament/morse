@@ -1,14 +1,15 @@
 // Turns Morse key into USB keyboard
 
-#include <Bounce.h> // include de-bounce library
+#include <Bounce2.h> // include de-bounce library
 
 const int led = 13; // led is connected to pin 13
-const int keyPin = 7;  // morse key is connected to pin 7
-Bounce morseKey = Bounce(keyPin, 10);  // 10 ms debounce
+const int keyPin = 2;  // morse key is connected to pin 7
+Bounce morseKey = Bounce();  // 10 ms debounce
 
-const unsigned long dashThresh = 150; // time threshold in ms to differentiate dots from dashes
-const unsigned long letterThresh = 500; // time threshold in ms to differentiate letter gaps
-const unsigned long wordThresh = 3000; // time threshold in ms to differentiate word gaps
+const unsigned long dot = 100;
+const unsigned long dashThresh = 3*dot; // time threshold in ms to differentiate dots from dashes
+const unsigned long letterThresh = dashThresh; // time threshold in ms to differentiate letter gaps
+const unsigned long wordThresh = 7*dot; // time threshold in ms to differentiate word gaps
 
 String inputString = ""; // initialise input string
 
@@ -24,6 +25,14 @@ void setup()
 {
   pinMode(led, OUTPUT); // configure the pin connected to the led as an output
   pinMode(keyPin, INPUT_PULLUP); // configure the pin connected to the morse key as a pullup
+  morseKey.attach(keyPin);
+  morseKey.interval(10);
+  Serial.begin(57600);
+  while (!Serial)
+  {
+    ;
+  }
+  
 } // end of setup
 
 void loop()
@@ -49,6 +58,8 @@ void keyDown()
 {
     downTime = millis();
     digitalWrite(led, HIGH); // switch LED on
+
+    pauseFlag = 0;
 }
 
 void keyUp()
@@ -77,7 +88,8 @@ void checkPause()
     pauseDuration = timeNow-upTime;
 
     if (pauseDuration>=letterThresh and pauseDuration<wordThresh and pauseFlag){ // if the preceding pause was long enough AND a pause hasn't just been evaluated, evaluate the previous inputs as a single letter
-
+      Serial.print(pauseDuration);
+      Serial.println();
       evaluateLetter();
       pauseFlag = 0;
       
@@ -92,124 +104,86 @@ void checkPause()
 
 void newWord()
 {
-  Keyboard.press(KEY_SPACE);
-  Keyboard.release(KEY_SPACE);
+  Serial.print(" ");
 }
 
 void evaluateLetter()
 {
 
   if (inputString==".-") {
-      Keyboard.press(KEY_A);
-      Keyboard.release(KEY_A);
+      Serial.print("a");
   } else if (inputString=="-..."){
-      Keyboard.press(KEY_B);
-      Keyboard.release(KEY_B);
+      Serial.print("b");
   } else if (inputString == "-.-."){
-      Keyboard.press(KEY_C);
-      Keyboard.release(KEY_C);
+      Serial.print("c");
   } else if (inputString=="-.."){
-      Keyboard.press(KEY_D);
-      Keyboard.release(KEY_D);
+      Serial.print("d");
   } else if (inputString=="."){
-      Keyboard.press(KEY_E);
-      Keyboard.release(KEY_E);
+      Serial.print("e");
   } else if (inputString=="..-."){
-      Keyboard.press(KEY_F);
-      Keyboard.release(KEY_F);
+      Serial.print("f");
   } else if (inputString=="--."){
-      Keyboard.press(KEY_G);
-      Keyboard.release(KEY_G);
+      Serial.print("g");
   } else if (inputString=="...."){
-      Keyboard.press(KEY_H);
-      Keyboard.release(KEY_H);
+      Serial.print("h");
   } else if (inputString==".."){
-      Keyboard.press(KEY_I);
-      Keyboard.release(KEY_I);
+      Serial.print("i");
   } else if (inputString==".---"){
-      Keyboard.press(KEY_J);
-      Keyboard.release(KEY_J);
+      Serial.print("j");
   } else if (inputString=="-.-"){
-      Keyboard.press(KEY_K);
-      Keyboard.release(KEY_K);
+      Serial.print("k");
   } else if (inputString==".-.."){
-      Keyboard.press(KEY_L);
-      Keyboard.release(KEY_L);
+      Serial.print("l");
   } else if (inputString=="--"){
-      Keyboard.press(KEY_M);
-      Keyboard.release(KEY_M);
+      Serial.print("m");
   } else if (inputString=="-."){
-      Keyboard.press(KEY_N);
-      Keyboard.release(KEY_N);
+      Serial.print("n");
   } else if (inputString=="---"){
-      Keyboard.press(KEY_O);
-      Keyboard.release(KEY_O);
+      Serial.print("o");
   } else if (inputString==".--."){
-      Keyboard.press(KEY_P);
-      Keyboard.release(KEY_P);
+      Serial.print("p");
   } else if (inputString=="--.-"){
-      Keyboard.press(KEY_Q);
-      Keyboard.release(KEY_Q);
+      Serial.print("q");
   } else if (inputString==".-."){
-      Keyboard.press(KEY_R);
-      Keyboard.release(KEY_R);
+      Serial.print("r");
   } else if (inputString=="..."){
-      Keyboard.press(KEY_S);
-      Keyboard.release(KEY_S);
+      Serial.print("s");
   } else if (inputString=="-"){
-      Keyboard.press(KEY_T);
-      Keyboard.release(KEY_T);
+      Serial.print("t");
   } else if (inputString=="..-"){
-      Keyboard.press(KEY_U);
-      Keyboard.release(KEY_U);
+      Serial.print("u");
   } else if (inputString=="...-"){
-      Keyboard.press(KEY_V);
-      Keyboard.release(KEY_V);
+      Serial.print("v");
   } else if (inputString==".--"){
-      Keyboard.press(KEY_W);
-      Keyboard.release(KEY_W);
+      Serial.print("w");
   } else if (inputString=="-..-"){
-      Keyboard.press(KEY_X);
-      Keyboard.release(KEY_X);
+      Serial.print("x");
   } else if (inputString=="-.--"){
-      Keyboard.press(KEY_Y);
-      Keyboard.release(KEY_Y);
+      Serial.print("y");
   } else if (inputString=="--.."){
-      Keyboard.press(KEY_Z);
-      Keyboard.release(KEY_Z);
+      Serial.print("z");
   } else if (inputString==".----"){
-      Keyboard.press(KEY_1);
-      Keyboard.release(KEY_1);
+      Serial.print("1");
   } else if (inputString=="..---"){
-      Keyboard.press(KEY_2);
-      Keyboard.release(KEY_2);
+      Serial.print("2");
   } else if (inputString=="...--"){
-      Keyboard.press(KEY_3);
-      Keyboard.release(KEY_3);
+      Serial.print("3");
   } else if (inputString=="....-"){
-      Keyboard.press(KEY_4);
-      Keyboard.release(KEY_4);
+      Serial.print("4");
   } else if (inputString=="....."){
-      Keyboard.press(KEY_5);
-      Keyboard.release(KEY_5);
+      Serial.print("5");
   } else if (inputString=="-...."){
-      Keyboard.press(KEY_6);
-      Keyboard.release(KEY_6);
+      Serial.print("6");
   } else if (inputString=="--..."){
-      Keyboard.press(KEY_7);
-      Keyboard.release(KEY_7);
+      Serial.print("7");
   } else if (inputString=="---.."){
-      Keyboard.press(KEY_8);
-      Keyboard.release(KEY_8);
+      Serial.print("8");
   } else if (inputString=="----."){
-      Keyboard.press(KEY_9);
-      Keyboard.release(KEY_9);
+      Serial.print("9");
   } else if (inputString=="-----"){
-      Keyboard.press(KEY_0);
-      Keyboard.release(KEY_0);
+      Serial.print("0");
   } else { 
-      Keyboard.press(KEY_MINUS);
-      Keyboard.release(KEY_MINUS);
+      Serial.print("");
   }
 
   inputString = ""; // re-initialise inputString ready for new letter
