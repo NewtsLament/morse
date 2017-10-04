@@ -70,11 +70,11 @@ void keyUp()
 
     if (changeDuration>0 and changeDuration<dashThresh){
       inputString = inputString + ".";
-      Serial.println("DOT");
+      //Serial.println("DOT");
 
     } else if (changeDuration>=dashThresh) {
       inputString = inputString + "-";
-      Serial.println("DASH");
+      //Serial.println("DASH");
 
     }
 
@@ -84,21 +84,24 @@ void keyUp()
 
 void checkPause()
 {   
-    timeNow = millis();
-    pauseDuration = timeNow-upTime;
-
-    if (pauseDuration>=letterThresh and pauseDuration<wordThresh and pauseFlag){ // if the preceding pause was long enough AND a pause hasn't just been evaluated, evaluate the previous inputs as a single letter
-      Serial.print(pauseDuration);
-      Serial.println();
-      evaluateLetter();
-      pauseFlag = 0;
-      
-    } else if (pauseDuration >= wordThresh and pauseFlag) {
-
-      evaluateLetter();
-      newWord();
-      pauseFlag = 0; 
-      
+    if (pauseFlag)
+    {
+      timeNow = millis();
+      pauseDuration = timeNow-upTime;
+  
+      if (pauseDuration>=letterThresh and pauseDuration<wordThresh){ // if the preceding pause was long enough AND a pause hasn't just been evaluated, evaluate the previous inputs as a single letter
+        //Serial.print(pauseDuration);
+        //Serial.println();
+        evaluateLetter();
+        pauseFlag = 0;
+        
+      } else if (pauseDuration >= wordThresh) {
+  
+        evaluateLetter();
+        newWord();
+        pauseFlag = 0; 
+        
+      }
     }
 }
 
