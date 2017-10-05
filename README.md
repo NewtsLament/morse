@@ -2,15 +2,19 @@
 
 #### What's this?
 
-This repo contains code to convert a physical Morse key into a USB keyboard, via
-a Teensy 3.2. This means you can plug the Morse key into any laptop or computer and use it in exactly the same way as a conventional keyboard, except you type in Morse and the characters appear on screen in English.
+This repo contains code to convert a physical Morse key into a serial device, which translates correct Morse codes into their ASCII equivalent.
 
-The keyboard currently supports lowercase letters of the alphabet from a-z and numbers 0-9.
+The keyboard currently supports lowercase letters of the alphabet from a-z and numbers 0-9, the Danish characters æ, ø and å and the end sign implemented as newline is also supported.
 
-Unrecognised characters are printed out as a dash, or "-".
+Unrecognised characters are not printed.
 
-Timings between characters and words are currently hardcoded in ms. This isn't hugely accurate since different operators will key at different speeds, but the hardcoded timings can easily be tweaked.
+The dot timing is hard coded, and all other timings are dependent on this dot timing in the following way:
+* A dash is 3 times the length of a dot.
+* A letter is separated by a pause of the same length as a dash.
+* A word is separated by a pause of 7 times the length of a dot.
+
+The dot timing is currently hard coded in ms. This isn't hugely accurate since different operators will key at different speeds, but the hard coded timings can easily be tweaked. 
 
 #### What do I need to replicate this?
 
-You'll need a Teensy 3.2 and a physical Morse key. I've configured my Teensy so one output from the Morse key is connected to Pin 7, and the other is connected to a ground pin.
+An Arduino Nano or similar is sufficient, currently the pin used for the Morse key input is pin 2, but this is easily changed. The internal pull up of pin 2 is active, so the Morse key must connect pin 2 to ground when active.
