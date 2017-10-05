@@ -89,11 +89,11 @@ void checkPause()
       timeNow = millis();
       pauseDuration = timeNow-upTime;
   
-      if (pauseDuration>=letterThresh and pauseDuration<wordThresh){ // if the preceding pause was long enough AND a pause hasn't just been evaluated, evaluate the previous inputs as a single letter
+      if (pauseDuration>=letterThresh and pauseDuration<wordThresh and pauseFlag == 1){ // if the preceding pause was long enough AND a pause hasn't just been evaluated, evaluate the previous inputs as a single letter
         //Serial.print(pauseDuration);
         //Serial.println();
         evaluateLetter();
-        pauseFlag = 0;
+        pauseFlag = 2;
         
       } else if (pauseDuration >= wordThresh) {
   
@@ -191,7 +191,7 @@ void evaluateLetter()
       Serial.print("9");
   } else if (inputString=="-----"){
       Serial.print("0");
-  } else if (inputString=="-.-"){
+  } else if (inputString=="...-.-"){
       Serial.println();
   } else {
       Serial.print("");
