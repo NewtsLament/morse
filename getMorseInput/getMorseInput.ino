@@ -118,7 +118,7 @@ void newWord()
 }
 
 #if !defined(__SERIAL__)
-void press(String key){
+void press(char key){
   Keyboard.press(key);
   Keyboard.release(key);
 }
