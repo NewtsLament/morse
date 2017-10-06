@@ -1,5 +1,10 @@
 // Turns Morse key into USB keyboard
 
+// Macro stuff detecting chip.
+#if defined(__AVR_ATmega328P__)
+#define __SERIAL__ // Assume UNO or similar
+#endif
+
 #include <Bounce2.h> // include de-bounce library
 
 const int led = 13; // led is connected to pin 13
@@ -70,12 +75,14 @@ void keyUp()
 
     if (changeDuration>0 and changeDuration<dashThresh){
       inputString = inputString + ".";
-      //Serial.println("DOT");
-
+      #if !defined(__SERIAL__)
+      Serial.println("DOT");
+      #endif
     } else if (changeDuration>=dashThresh) {
       inputString = inputString + "-";
-      //Serial.println("DASH");
-
+      #if !defined(__SERIAL__)
+      Serial.println("DASH");
+      #endif
     }
 
     pauseFlag = 1;
@@ -84,87 +91,86 @@ void keyUp()
 
 void checkPause()
 {   
-    if (pauseFlag)
-    {
-      timeNow = millis();
-      pauseDuration = timeNow-upTime;
-  
-      if (pauseDuration>=letterThresh and pauseDuration<wordThresh and pauseFlag == 1){ // if the preceding pause was long enough AND a pause hasn't just been evaluated, evaluate the previous inputs as a single letter
-        //Serial.print(pauseDuration);
-        //Serial.println();
-        evaluateLetter();
-        pauseFlag = 2;
-        
-      } else if (pauseDuration >= wordThresh) {
-  
-        evaluateLetter();
-        newWord();
-        pauseFlag = 0; 
-        
-      }
+  if (pauseFlag)
+  {
+    timeNow = millis();
+    pauseDuration = timeNow-upTime;
+
+    if (pauseDuration>=letterThresh and pauseDuration<wordThresh and pauseFlag == 1)
+    { // if the preceding pause was long enough AND a pause hasn't just been evaluated, evaluate the previous inputs as a single letter.
+      evaluateLetter();
+      pauseFlag = 2;
+    } else if (pauseDuration >= wordThresh) {
+      evaluateLetter();
+      newWord();
+      pauseFlag = 0; 
     }
+  }
 }
 
+#ifdef __SERIAL__
 void newWord()
 {
-  Serial.print(" ");
+  Serial.print(' ');
 }
+#endif
 
+#ifdef __SERIAL__
 void evaluateLetter()
 {
 
   if (inputString==".-") {
-      Serial.print("a");
+      Serial.print('a');
   } else if (inputString=="-..."){
-      Serial.print("b");
+      Serial.print('b');
   } else if (inputString == "-.-."){
-      Serial.print("c");
+      Serial.print('c');
   } else if (inputString=="-.."){
-      Serial.print("d");
+      Serial.print('d');
   } else if (inputString=="."){
-      Serial.print("e");
+      Serial.print('e');
   } else if (inputString=="..-."){
-      Serial.print("f");
+      Serial.print('f');
   } else if (inputString=="--."){
-      Serial.print("g");
+      Serial.print('g');
   } else if (inputString=="...."){
-      Serial.print("h");
+      Serial.print('h');
   } else if (inputString==".."){
-      Serial.print("i");
+      Serial.print('i');
   } else if (inputString==".---"){
-      Serial.print("j");
+      Serial.print('j');
   } else if (inputString=="-.-"){
-      Serial.print("k");
+      Serial.print('k');
   } else if (inputString==".-.."){
-      Serial.print("l");
+      Serial.print('l');
   } else if (inputString=="--"){
-      Serial.print("m");
+      Serial.print('m');
   } else if (inputString=="-."){
-      Serial.print("n");
+      Serial.print('n');
   } else if (inputString=="---"){
-      Serial.print("o");
+      Serial.print('o');
   } else if (inputString==".--."){
-      Serial.print("p");
+      Serial.print('p');
   } else if (inputString=="--.-"){
-      Serial.print("q");
+      Serial.print('q');
   } else if (inputString==".-."){
-      Serial.print("r");
+      Serial.print('r');
   } else if (inputString=="..."){
-      Serial.print("s");
+      Serial.print('s');
   } else if (inputString=="-"){
-      Serial.print("t");
+      Serial.print('t');
   } else if (inputString=="..-"){
-      Serial.print("u");
+      Serial.print('u');
   } else if (inputString=="...-"){
-      Serial.print("v");
+      Serial.print('v');
   } else if (inputString==".--"){
-      Serial.print("w");
+      Serial.print('w');
   } else if (inputString=="-..-"){
-      Serial.print("x");
+      Serial.print('x');
   } else if (inputString=="-.--"){
-      Serial.print("y");
+      Serial.print('y');
   } else if (inputString=="--.."){
-      Serial.print("z");
+      Serial.print('z');
   } else if (inputString==".-.-"){
       Serial.print("æ");
   } else if (inputString=="---."){
@@ -172,34 +178,34 @@ void evaluateLetter()
   } else if (inputString==".--.-"){
       Serial.print("å");
   } else if (inputString==".----"){
-      Serial.print("1");
+      Serial.print('1');
   } else if (inputString=="..---"){
-      Serial.print("2");
+      Serial.print('2');
   } else if (inputString=="...--"){
-      Serial.print("3");
+      Serial.print('3');
   } else if (inputString=="....-"){
-      Serial.print("4");
+      Serial.print('4');
   } else if (inputString=="....."){
-      Serial.print("5");
+      Serial.print('5');
   } else if (inputString=="-...."){
-      Serial.print("6");
+      Serial.print('6');
   } else if (inputString=="--..."){
-      Serial.print("7");
+      Serial.print('7');
   } else if (inputString=="---.."){
-      Serial.print("8");
+      Serial.print('8');
   } else if (inputString=="----."){
-      Serial.print("9");
+      Serial.print('9');
   } else if (inputString=="-----"){
-      Serial.print("0");
+      Serial.print('0');
   } else if (inputString=="...-.-"){
       Serial.println();
-  } else {
+  } /*else {
       Serial.print("");
-  }
+  }*/
 
   inputString = ""; // re-initialise inputString ready for new letter
 
 }
-
+#endif
 
 
