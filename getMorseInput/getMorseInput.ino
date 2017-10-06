@@ -20,7 +20,7 @@ String inputString = ""; // initialise input string
 
 unsigned long downTime = 0; // records the start time of state change
 unsigned long upTime = 0; // records the end time of state change
-unsigned long timeNow = 0; // records the current time 
+unsigned long timeNow = 0; // records the current time
 unsigned long changeDuration = 0; // records the duration of state change
 unsigned long pauseDuration = 0; // records the duration of the last pause
 
@@ -41,22 +41,22 @@ void setup()
 } // end of setup
 
 void loop()
-{ 
+{
   checkPause();
   // start of IF loop
   if (morseKey.update()){
-    
+
     if (morseKey.risingEdge()) { // if input from key has gone to 1 and model is still 0, update model
 
       keyUp();
-  
+
     } else if (morseKey.fallingEdge()) { // if input from key has gone to 0 and model is still 1, update model
-  
+
       keyDown();
-  
+
     }
   } // end of if update loop
-  
+
 } // end of loop
 
 void keyDown()
@@ -70,10 +70,10 @@ void keyDown()
 void keyUp()
 {
     upTime = millis();
-    changeDuration = upTime-downTime; 
+    changeDuration = upTime-downTime;
     digitalWrite(led, LOW); // switch LED off
 
-    if (changeDuration>0 and changeDuration<dashThresh){
+    if (changeDuration>0 and changeDuration<dashThresh) {
       inputString = inputString + ".";
       #if !defined(__SERIAL__)
       Serial.println("DOT");
@@ -86,7 +86,7 @@ void keyUp()
     }
 
     pauseFlag = 1;
-    
+
 }
 
 void checkPause()
@@ -108,17 +108,24 @@ void checkPause()
   }
 }
 
-#ifdef __SERIAL__
+<<<<<<< HEAD
 void newWord()
 {
+  #ifdef __SERIAL__
   Serial.print(' ');
+  #else
+  press(KEY_SPACE);
+  #endif
 }
-#endif
 
-#ifdef __SERIAL__
+void press(string key){
+  Keyboard.press(key);
+  Keyboard.release(key);
+}
+
 void evaluateLetter()
 {
-
+  #ifdef __SERIAL__
   if (inputString==".-") {
       Serial.print('a');
   } else if (inputString=="-..."){
@@ -202,10 +209,84 @@ void evaluateLetter()
   } /*else {
       Serial.print("");
   }*/
-
+  #else
+  switch (inputString) {
+    case ".-":
+      press(KEY_A);
+    case "-...":
+        press(KEY_B);
+    case "-.-.":
+        press(KEY_C);
+    case "-..":
+        press(KEY_D);
+    case ".":
+        press(KEY_E);
+    case "..-.":
+        press(KEY_F);
+    case "--.":
+        press(KEY_G);
+    case "....":
+        press(KEY_H);
+    case "..":
+        press(KEY_I);
+    case ".---":
+        press(KEY_J);
+    case "-.-":
+        press(KEY_K);
+    case ".-..":
+        press(KEY_L);
+    case "--":
+        press(KEY_M);
+    case "-.":
+        press(KEY_N);
+    case "---":
+        press(KEY_O);
+    case ".--.":
+        press(KEY_P);
+    case "--.-":
+        press(KEY_Q);
+    case ".-.":
+        press(KEY_R);
+    case "...":
+        press(KEY_S);
+    case "-":
+        press(KEY_T);
+    case "..-":
+        press(KEY_U);
+    case "...-":
+        press(KEY_V);
+    case ".--":
+        press(KEY_W);
+    case "-..-":
+        press(KEY_X);
+    case "-.--":
+        press(KEY_Y);
+    case "--..":
+        press(KEY_Z);
+    case ".----":
+        press(KEY_1);
+    case "..---":
+        press(KEY_2);
+    case "...--":
+        press(KEY_3);
+    case "....-":
+        press(KEY_4);
+    case ".....":
+        press(KEY_5);
+    case "-....":
+        press(KEY_6);
+    case "--...":
+        press(KEY_7);
+    case "---..":
+        press(KEY_8);
+    case "----.":
+        press(KEY_9);
+    case "-----":
+        press(KEY_0);
+    default:
+        press(KEY_MINUS);
+  }
+  #endif
   inputString = ""; // re-initialise inputString ready for new letter
 
 }
-#endif
-
-
