@@ -108,7 +108,6 @@ void checkPause()
   }
 }
 
-<<<<<<< HEAD
 void newWord()
 {
   #ifdef __SERIAL__
@@ -118,10 +117,12 @@ void newWord()
   #endif
 }
 
-void press(string key){
+#if !defined(__SERIAL__)
+void press(String key){
   Keyboard.press(key);
   Keyboard.release(key);
 }
+#endif
 
 void evaluateLetter()
 {
