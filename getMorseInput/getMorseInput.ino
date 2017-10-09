@@ -128,85 +128,85 @@ void evaluateLetter()
 {
   #ifdef __SERIAL__
   if (inputString==".-") {
-      Serial.print('a');
+      Serial.print("\0a");
   } else if (inputString=="-..."){
-      Serial.print('b');
+      Serial.print("\0b");
   } else if (inputString == "-.-."){
-      Serial.print('c');
+      Serial.print("\0c");
   } else if (inputString=="-.."){
-      Serial.print('d');
+      Serial.print("\0d");
   } else if (inputString=="."){
-      Serial.print('e');
+      Serial.print("\0e");
   } else if (inputString=="..-."){
-      Serial.print('f');
+      Serial.print("\0f");
   } else if (inputString=="--."){
-      Serial.print('g');
+      Serial.print("\0g");
   } else if (inputString=="...."){
-      Serial.print('h');
+      Serial.print("\0h");
   } else if (inputString==".."){
-      Serial.print('i');
+      Serial.print("\0i");
   } else if (inputString==".---"){
-      Serial.print('j');
+      Serial.print("\0j");
   } else if (inputString=="-.-"){
-      Serial.print('k');
+      Serial.print("\0k");
   } else if (inputString==".-.."){
-      Serial.print('l');
+      Serial.print("\0l");
   } else if (inputString=="--"){
-      Serial.print('m');
+      Serial.print("\0m");
   } else if (inputString=="-."){
-      Serial.print('n');
+      Serial.print("\0n");
   } else if (inputString=="---"){
-      Serial.print('o');
+      Serial.print("\0o");
   } else if (inputString==".--."){
-      Serial.print('p');
+      Serial.print("\0p");
   } else if (inputString=="--.-"){
-      Serial.print('q');
+      Serial.print("\0q");
   } else if (inputString==".-."){
-      Serial.print('r');
+      Serial.print("\0r");
   } else if (inputString=="..."){
-      Serial.print('s');
+      Serial.print("\0s");
   } else if (inputString=="-"){
-      Serial.print('t');
+      Serial.print("\0t");
   } else if (inputString=="..-"){
-      Serial.print('u');
+      Serial.print("\0u");
   } else if (inputString=="...-"){
-      Serial.print('v');
+      Serial.print("\0v");
   } else if (inputString==".--"){
-      Serial.print('w');
+      Serial.print("\0w");
   } else if (inputString=="-..-"){
-      Serial.print('x');
+      Serial.print("\0x");
   } else if (inputString=="-.--"){
-      Serial.print('y');
+      Serial.print("\0y");
   } else if (inputString=="--.."){
-      Serial.print('z');
+      Serial.print("\0z");
   } else if (inputString==".-.-"){
-      Serial.print("æ");
+      Serial.print("\0æ");
   } else if (inputString=="---."){
-      Serial.print("ø");
+      Serial.print("\0ø");
   } else if (inputString==".--.-"){
-      Serial.print("å");
+      Serial.print("\0å");
   } else if (inputString==".----"){
-      Serial.print('1');
+      Serial.print("\01");
   } else if (inputString=="..---"){
-      Serial.print('2');
+      Serial.print("\02");
   } else if (inputString=="...--"){
-      Serial.print('3');
+      Serial.print("\03");
   } else if (inputString=="....-"){
-      Serial.print('4');
+      Serial.print("\04");
   } else if (inputString=="....."){
-      Serial.print('5');
+      Serial.print("\05");
   } else if (inputString=="-...."){
-      Serial.print('6');
+      Serial.print("\06");
   } else if (inputString=="--..."){
-      Serial.print('7');
+      Serial.print("\07");
   } else if (inputString=="---.."){
-      Serial.print('8');
+      Serial.print("\08");
   } else if (inputString=="----."){
-      Serial.print('9');
+      Serial.print("\09");
   } else if (inputString=="-----"){
-      Serial.print('0');
+      Serial.print("\00");
   } else if (inputString=="...-.-"){
-      Serial.println();
+      Serial.print("\0\n");
   } /*else {
       Serial.print("");
   }*/
