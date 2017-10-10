@@ -8,6 +8,7 @@
 #include <Bounce2.h> // include de-bounce library
 
 const int led = 13; // led is connected to pin 13
+const int audioOut = 12;
 const int keyPin = 2;  // morse key is connected to pin 7
 Bounce morseKey = Bounce();
 
@@ -47,13 +48,11 @@ void loop()
   if (morseKey.update()){
 
     if (morseKey.risingEdge()) { // if input from key has gone to 1 and model is still 0, update model
-
+      noTone(audioPin);
       keyUp();
-
     } else if (morseKey.fallingEdge()) { // if input from key has gone to 0 and model is still 1, update model
-
+      tone(audioPin,700);
       keyDown();
-
     }
   } // end of if update loop
 
