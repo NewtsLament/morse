@@ -9,6 +9,7 @@
 
 const int led = 13; // led is connected to pin 13
 const int audioOut = 12;
+const int audioSelect = 11;
 const int keyPin = 2;  // morse key is connected to pin 7
 Bounce morseKey = Bounce();
 
@@ -30,6 +31,8 @@ int pauseFlag = 0; // initilise the flag to indicate whether a pause has already
 void setup()
 {
   pinMode(led, OUTPUT); // configure the pin connected to the led as an output
+  pinMode(audioPin, OUTPUT);
+  pinMode(audioSelect, INPUT_PULLUP);
   pinMode(keyPin, INPUT_PULLUP); // configure the pin connected to the morse key as a pullup
   morseKey.attach(keyPin);
   morseKey.interval(10); // 10 ms debounce
@@ -46,12 +49,12 @@ void loop()
   checkPause();
   // start of IF loop
   if (morseKey.update()){
-
     if (morseKey.risingEdge()) { // if input from key has gone to 1 and model is still 0, update model
       noTone(audioPin);
       keyUp();
     } else if (morseKey.fallingEdge()) { // if input from key has gone to 0 and model is still 1, update model
-      tone(audioPin,700);
+      if (digitalRead(audioSelect) == 0)
+        tone(audioPin,700);
       keyDown();
     }
   } // end of if update loop
