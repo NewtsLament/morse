@@ -39,6 +39,9 @@ void setup()
   pinMode(keyPin, INPUT_PULLUP); // configure the pin connected to the morse key as a pullup
   morseKey.attach(keyPin);
   morseKey.interval(10); // 10 ms debounce
+  #ifdef __SERIAL__
+  Keyboard.begin();
+  #endif
   Serial.begin(57600);
   while (!Serial)
   {
@@ -80,12 +83,12 @@ void keyUp()
 
     if (changeDuration>0 and changeDuration<dashThresh) {
       inputString = inputString + ".";
-      #if !defined(__SERIAL__)
+      #ifndef __SERIAL__
       Serial.println("DOT");
       #endif
     } else if (changeDuration>=dashThresh) {
       inputString = inputString + "-";
-      #if !defined(__SERIAL__)
+      #ifndef __SERIAL__
       Serial.println("DASH");
       #endif
     }
@@ -120,7 +123,7 @@ void newWord()
     #ifdef __SERIAL__
     Serial.print(" ");
     #else
-    press(KEY_SPACE);
+    Keyboard.press(' ');
     #endif
   }
 }
@@ -255,117 +258,117 @@ void evaluateLetter()
   #else
   // Letters a-z
   if (inputString==".-") {
-    Keyboard.write(KEY_A);
+    Keyboard.write('a');
   } else if (inputString=="-..."){
-    Keyboard.write(KEY_B);
+    Keyboard.write('b');
   } else if (inputString == "-.-."){
-    Keyboard.write(KEY_C);
+    Keyboard.write('c');
   } else if (inputString=="-.."){
-    Keyboard.write(KEY_D);
+    Keyboard.write('d');
   } else if (inputString=="."){
-    Keyboard.write(KEY_E);
+    Keyboard.write('e');
   } else if (inputString=="..-."){
-    Keyboard.write(KEY_F);
+    Keyboard.write('f');
   } else if (inputString=="--."){
-    Keyboard.write(KEY_G);
+    Keyboard.write('g');
   } else if (inputString=="...."){
-    Keyboard.write(KEY_H);
+    Keyboard.write('h');
   } else if (inputString==".."){
-    Keyboard.write(KEY_I);
+    Keyboard.write('i');
   } else if (inputString==".---"){
-    Keyboard.write(KEY_J);
+    Keyboard.write('j');
   } else if (inputString=="-.-"){
-    Keyboard.write(KEY_K);
+    Keyboard.write('k');
   } else if (inputString==".-.."){
-    Keyboard.write(KEY_L);
+    Keyboard.write('l');
   } else if (inputString=="--"){
-    Keyboard.write(KEY_M);
+    Keyboard.write('m');
   } else if (inputString=="-."){
-    Keyboard.write(KEY_N);
+    Keyboard.write('n');
   } else if (inputString=="---"){
-    Keyboard.write(KEY_O);
+    Keyboard.write('o');
   } else if (inputString==".--."){
-    Keyboard.write(KEY_P);
+    Keyboard.write('p');
   } else if (inputString=="--.-"){
-    Keyboard.write(KEY_Q);
+    Keyboard.write('q');
   } else if (inputString==".-."){
-    Keyboard.write(KEY_R);
+    Keyboard.write('r');
   } else if (inputString=="..."){
-    Keyboard.write(KEY_S);
+    Keyboard.write('s');
   } else if (inputString=="-"){
-    Keyboard.write(KEY_T);
+    Keyboard.write('t');
   } else if (inputString=="..-"){
-    Keyboard.write(KEY_U);
+    Keyboard.write('u');
   } else if (inputString=="...-"){
-    Keyboard.write(KEY_V);
+    Keyboard.write('v');
   } else if (inputString==".--"){
-    Keyboard.write(KEY_W);
+    Keyboard.write('w');
   } else if (inputString=="-..-"){
-    Keyboard.write(KEY_X);
+    Keyboard.write('x');
   } else if (inputString=="-.--"){
-    Keyboard.write(KEY_Y);
+    Keyboard.write('y');
   } else if (inputString=="--.."){
-    Keyboard.write(KEY_Z);
+    Keyboard.write('z');
     // Numbers
   } else if (inputString==".----"){
-    Keyboard.write(KEY_1);
+    Keyboard.write('1');
   } else if (inputString=="..---"){
-    Keyboard.write(KEY_2);
+    Keyboard.write('2');
   } else if (inputString=="...--"){
-    Keyboard.write(KEY_3);
+    Keyboard.write('3');
   } else if (inputString=="....-"){
-    Keyboard.write(KEY_4);
+    Keyboard.write('4');
   } else if (inputString=="....."){
-    Keyboard.write(KEY_5);
+    Keyboard.write('5');
   } else if (inputString=="-...."){
-    Keyboard.write(KEY_6);
+    Keyboard.write('6');
   } else if (inputString=="--..."){
-    Keyboard.write(KEY_7);
+    Keyboard.write('7');
   } else if (inputString=="---.."){
-    Keyboard.write(KEY_8);
+    Keyboard.write('8');
   } else if (inputString=="----."){
-    Keyboard.write(KEY_9);
+    Keyboard.write('9');
   } else if (inputString=="-----"){
-    Keyboard.write(KEY_0);
+    Keyboard.write('0');
     //Special
   } else if (inputString=="...-.-"){
-    Keyboard.write(KEY_ENTER);
+    Keyboard.write('\n');
   } else if (inputString==".-.-.-"){
-    Keyboard.write(".");
+    Keyboard.write('.');
   } else if (inputString=="--..--"){
-    Keyboard.write(",");
+    Keyboard.write(',');
   } else if (inputString=="..--.."){
-    Keyboard.write("?");
+    Keyboard.write('?');
   } else if (inputString==".----."){
-    Keyboard.write("'");
+    Keyboard.write('\'');
   } else if (inputString=="-.-.--"){
-    Keyboard.write("!");
+    Keyboard.write('!');
   } else if (inputString=="-..-."){
-    Keyboard.write("/");
+    Keyboard.write('/');
   } else if (inputString=="-.--."){
-    Keyboard.write("(");
+    Keyboard.write('(');
   } else if (inputString=="-.--.-"){
-    Keyboard.write(")");
+    Keyboard.write(')');
   } else if (inputString==".-..."){
-    Keyboard.write("&");
+    Keyboard.write('&');
   } else if (inputString=="---..."){
-    Keyboard.write(":");
+    Keyboard.write(':');
   } else if (inputString=="-.-.-."){
-    Keyboard.write(";");
+    Keyboard.write(';');
   } else if (inputString=="-...-"){
-    Keyboard.write("=");
+    Keyboard.write('=');
   } else if (inputString==".-.-."){
-    Keyboard.write("+");
+    Keyboard.write('+');
   } else if (inputString=="-....-"){
-    Keyboard.write("-");
+    Keyboard.write('-');
   } else if (inputString=="..--.-"){
-    Keyboard.write("_");
+    Keyboard.write('_');
   } else if (inputString==".-..-."){
-    Keyboard.write("\"");
+    Keyboard.write('"');
   } else if (inputString=="...-..-"){
-    Keyboard.write("$");
+    Keyboard.write('$');
   } else if (inputString==".--.-."){
-    Keyboard.write("@");
+    Keyboard.write('@');
   } else {
     emptyLetter = 1;
   }
