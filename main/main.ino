@@ -3,6 +3,8 @@
 // Macro stuff detecting chip.
 #if defined(__AVR_ATmega328P__)
 #define __SERIAL__ // Assume UNO or similar
+#else
+#include <Keyboard.h>
 #endif
 
 #include <Bounce2.h> // include de-bounce library
@@ -211,6 +213,42 @@ void evaluateLetter()
     // Special
   } else if (inputString=="...-.-"){
     Serial.print("\n");
+  } else if (inputString==".-.-.-"){
+    Serial.print(".");
+  } else if (inputString=="--..--"){
+    Serial.print(",");
+  } else if (inputString=="..--.."){
+    Serial.print("?");
+  } else if (inputString==".----."){
+    Serial.print("'");
+  } else if (inputString=="-.-.--"){
+    Serial.print("!");
+  } else if (inputString=="-..-."){
+    Serial.print("/");
+  } else if (inputString=="-.--."){
+    Serial.print("(");
+  } else if (inputString=="-.--.-"){
+    Serial.print(")");
+  } else if (inputString==".-..."){
+    Serial.print("&");
+  } else if (inputString=="---..."){
+    Serial.print(":");
+  } else if (inputString=="-.-.-."){
+    Serial.print(";");
+  } else if (inputString=="-...-"){
+    Serial.print("=");
+  } else if (inputString==".-.-."){
+    Serial.print("+");
+  } else if (inputString=="-....-"){
+    Serial.print("-");
+  } else if (inputString=="..--.-"){
+    Serial.print("_");
+  } else if (inputString==".-..-."){
+    Serial.print("\"");
+  } else if (inputString=="...-..-"){
+    Serial.print("$");
+  } else if (inputString==".--.-."){
+    Serial.print("@");
   } else {
       emptyLetter = 1;
   }
@@ -292,6 +330,42 @@ void evaluateLetter()
     //Special
   } else if (inputString=="...-.-"){
     Keyboard.write(KEY_ENTER);
+  } else if (inputString==".-.-.-"){
+    Keyboard.write(".");
+  } else if (inputString=="--..--"){
+    Keyboard.write(",");
+  } else if (inputString=="..--.."){
+    Keyboard.write("?");
+  } else if (inputString==".----."){
+    Keyboard.write("'");
+  } else if (inputString=="-.-.--"){
+    Keyboard.write("!");
+  } else if (inputString=="-..-."){
+    Keyboard.write("/");
+  } else if (inputString=="-.--."){
+    Keyboard.write("(");
+  } else if (inputString=="-.--.-"){
+    Keyboard.write(")");
+  } else if (inputString==".-..."){
+    Keyboard.write("&");
+  } else if (inputString=="---..."){
+    Keyboard.write(":");
+  } else if (inputString=="-.-.-."){
+    Keyboard.write(";");
+  } else if (inputString=="-...-"){
+    Keyboard.write("=");
+  } else if (inputString==".-.-."){
+    Keyboard.write("+");
+  } else if (inputString=="-....-"){
+    Keyboard.write("-");
+  } else if (inputString=="..--.-"){
+    Keyboard.write("_");
+  } else if (inputString==".-..-."){
+    Keyboard.write("\"");
+  } else if (inputString=="...-..-"){
+    Keyboard.write("$");
+  } else if (inputString==".--.-."){
+    Keyboard.write("@");
   } else {
     emptyLetter = 1;
   }
