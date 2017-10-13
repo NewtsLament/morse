@@ -27,6 +27,7 @@ unsigned long changeDuration = 0; // records the duration of state change
 unsigned long pauseDuration = 0; // records the duration of the last pause
 
 int pauseFlag = 0; // initilise the flag to indicate whether a pause has already been evaluated
+int emptyLetter = 0;
 
 void setup()
 {
@@ -112,11 +113,14 @@ void checkPause()
 
 void newWord()
 {
-  #ifdef __SERIAL__
-  Serial.print(" ");
-  #else
-  press(KEY_SPACE);
-  #endif
+  if (!emptyLetter)
+  {
+    #ifdef __SERIAL__
+    Serial.print(" ");
+    #else
+    press(KEY_SPACE);
+    #endif
+  }
 }
 
 #if !defined(__SERIAL__)
@@ -128,6 +132,7 @@ void press(char key){
 
 void evaluateLetter()
 {
+  emptyLetter = 0;
   #ifdef __SERIAL__
   if (inputString==".-") {
       Serial.print("a");
@@ -209,9 +214,9 @@ void evaluateLetter()
       Serial.print("0");
   } else if (inputString=="...-.-"){
       Serial.print("\n");
-  } /*else {
-      Serial.print("");
-  }*/
+  } else {
+      emptyLetter = 1;
+  }
   #else
   switch (inputString) {
     case ".-":
@@ -287,7 +292,7 @@ void evaluateLetter()
     case "-----":
         press(KEY_0);
     default:
-        press(KEY_MINUS);
+        emptyLetter = 1;
   }
   #endif
   inputString = ""; // re-initialise inputString ready for new letter
