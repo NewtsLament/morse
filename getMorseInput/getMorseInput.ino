@@ -31,7 +31,7 @@ int pauseFlag = 0; // initilise the flag to indicate whether a pause has already
 void setup()
 {
   pinMode(led, OUTPUT); // configure the pin connected to the led as an output
-  pinMode(audioPin, OUTPUT);
+  pinMode(audioOut, OUTPUT);
   pinMode(audioSelect, INPUT_PULLUP);
   pinMode(keyPin, INPUT_PULLUP); // configure the pin connected to the morse key as a pullup
   morseKey.attach(keyPin);
@@ -50,11 +50,11 @@ void loop()
   // start of IF loop
   if (morseKey.update()){
     if (morseKey.risingEdge()) { // if input from key has gone to 1 and model is still 0, update model
-      noTone(audioPin);
+      noTone(audioOut);
       keyUp();
     } else if (morseKey.fallingEdge()) { // if input from key has gone to 0 and model is still 1, update model
       if (digitalRead(audioSelect) == 0)
-        tone(audioPin,700);
+        tone(audioOut,700);
       keyDown();
     }
   } // end of if update loop
