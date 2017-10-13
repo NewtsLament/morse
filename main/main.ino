@@ -127,6 +127,7 @@ void evaluateLetter()
 {
   emptyLetter = 0;
   #ifdef __SERIAL__
+  // Letters a-z
   if (inputString==".-") {
     Serial.print("a");
   } else if (inputString=="-..."){
@@ -180,11 +181,13 @@ void evaluateLetter()
   } else if (inputString=="--.."){
     Serial.print("z");
   } else if (inputString==".-.-"){
+    // Letters æøå
     Serial.print("æ");
   } else if (inputString=="---."){
     Serial.print("ø");
   } else if (inputString==".--.-"){
     Serial.print("å");
+    // Numbers
   } else if (inputString==".----"){
     Serial.print("1");
   } else if (inputString=="..---"){
@@ -205,12 +208,14 @@ void evaluateLetter()
     Serial.print("9");
   } else if (inputString=="-----"){
     Serial.print("0");
+    // Special
   } else if (inputString=="...-.-"){
     Serial.print("\n");
   } else {
       emptyLetter = 1;
   }
   #else
+  // Letters a-z
   if (inputString==".-") {
     Keyboard.write(KEY_A);
   } else if (inputString=="-..."){
@@ -263,6 +268,7 @@ void evaluateLetter()
     Keyboard.write(KEY_Y);
   } else if (inputString=="--.."){
     Keyboard.write(KEY_Z);
+    // Numbers
   } else if (inputString==".----"){
     Keyboard.write(KEY_1);
   } else if (inputString=="..---"){
@@ -283,6 +289,9 @@ void evaluateLetter()
     Keyboard.write(KEY_9);
   } else if (inputString=="-----"){
     Keyboard.write(KEY_0);
+    //Special
+  } else if (inputString=="...-.-"){
+    Keyboard.write(KEY_ENTER);
   } else {
     emptyLetter = 1;
   }
